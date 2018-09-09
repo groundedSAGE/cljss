@@ -1,6 +1,5 @@
 (ns cljss.utils
-  (:require [clojure.string :as cstr]
-            [cljss.core :refer [css]]))
+  (:require [clojure.string :as cstr]))
 
 #?(:cljs (def dev? ^boolean goog.DEBUG))
 
@@ -100,8 +99,7 @@
                            (list cls (v props))
 
                            :else (list cls v)))))]
-    #?(:cljs (css cls static vars)
-       :clj  [cls static vars])))
+       :clj  [cls static vars]))
 
 (defn -meta-attrs [vars]
   (->> vars

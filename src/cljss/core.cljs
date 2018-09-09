@@ -1,6 +1,6 @@
 (ns cljss.core
   (:require [cljss.sheet :refer [create-sheet insert! filled? flush!]]
-            [cljss.utils :refer [build-css dev? -mk-var-class -meta-attrs -compile-class-name -camel-case-attrs]]
+            [cljss.utils :refer [build-css dev? with-meta? -meta-attrs -compile-class-name -camel-case-attrs]]
             [clojure.string :as cstr]))
 
 (def ^:private sheets (atom (list (create-sheet))))
@@ -31,6 +31,21 @@
             (insert! sheet #(build-css var-cls vars) var-cls)
             (str cls " " var-cls))
           cls)))))
+
+
+(defn -mk-var-class [props vars cls static]
+  (let [vars (->> vars
+                  (map (fn [[cls v]]
+                         (cond
+                           (and (ifn? v) (with-meta? v))
+                           (->> v meta list flatten (map #(get props % nil)) (apply v) (list cls))
+
+                           (ifn? v)
+                           (list cls (v props))
+
+                           :else (list cls v)))))]
+    (css cls static vars)))
+
 
 (defn css-keyframes
   "Takes CSS animation name, static styles and dynamic styles.
