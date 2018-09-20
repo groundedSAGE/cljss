@@ -2,7 +2,7 @@
   (:require [sablono.compiler :as s]
             [sablono.util :as sutil]
             [cljss.builder :as builder]
-            [cljss.core :as css])
+            [cljss.core :as css]))
 
 (defn gc [gen-class class]
   (if (seq class)
