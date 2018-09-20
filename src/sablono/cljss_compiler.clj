@@ -10,12 +10,12 @@
 
     gen-class))
 
-(def *exclude-static?* false)
+(def exclude-static? false)
 
 (defn- compile-class [class styles]
   (let [cls (str "css-" (hash styles))
         css (builder/build-styles cls styles)]
-    (if  *exclude-static?*
+    (if exclude-static?
       (let [[cls static vals] css]
         (swap! cljss.ssr/*ssr-ctx* assoc-in [:static cls] static)
         (gc `(cljss.core/css ~cls "" ~vals) class))
@@ -58,4 +58,3 @@
 ;; WARNING: NEVER EVER DO THIS AT HOME!
 ;; swap `sablono.compiler/compile-attrs` fn with own, adjusted, implementation
 (alter-var-root #'s/compile-attrs (fn [_] compile-attrs))
-

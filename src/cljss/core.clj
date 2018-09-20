@@ -8,7 +8,7 @@
             [cljss.specs]
             [cljss.ssr :as ssr]))
 
-(def *exclude-static?* false)
+(def exclude-static? false)
 
 (defn- ->status-styles [styles]
   (let [status (filterv status? styles)
@@ -66,7 +66,7 @@
       (if-not (cljs-env? &env)
         `(defn ~sym ~args
            (cljss.ssr/add-css ~cls-name# ~static# ~vals#))
-        (if *exclude-static?*
+        (if exclude-static?
           (do
             (swap! cljss.ssr/*ssr-ctx* assoc-in [:static cls-name#] static#)
             `(defn ~sym ~args
