@@ -9,7 +9,7 @@
             [cljss.specs]
             [cljss.ssr :as ssr]))
 
-(def ^:dynamic *exclude-static?*)
+(def *exclude-static?* false)
 
 (defn- ->status-styles [styles]
   (let [status (filterv status? styles)
