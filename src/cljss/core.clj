@@ -5,7 +5,6 @@
             [cljss.builder :refer [status? build-styles]]
             [cljss.collect :refer [dynamic?]]
             [clojure.string :as cstr]
-            [sablono.cljss-compiler]
             [cljss.specs]
             [cljss.ssr :as ssr]))
 
