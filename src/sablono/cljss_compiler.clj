@@ -1,8 +1,7 @@
 (ns sablono.cljss-compiler
   (:require [sablono.compiler :as s]
             [sablono.util :as sutil]
-            [cljss.builder :as builder]
-            [cljss.core :as css]))
+            [cljss.builder :as builder]))
 
 (defn gc [gen-class class]
   (if (seq class)
@@ -11,10 +10,12 @@
 
     gen-class))
 
+(def *exclude-static?* false)
+
 (defn- compile-class [class styles]
   (let [cls (str "css-" (hash styles))
         css (builder/build-styles cls styles)]
-    (if cljss.core/*exclude-static?*
+    (if  *exclude-static?*
       (let [[cls static vals] css]
         (swap! cljss.ssr/*ssr-ctx* assoc-in [:static cls] static)
         (gc `(cljss.core/css ~cls "" ~vals) class))
